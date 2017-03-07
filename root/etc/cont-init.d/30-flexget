@@ -1,0 +1,21 @@
+#!/usr/bin/with-contenv bash
+
+# make folders
+mkdir -p \
+	/flexget
+
+# remove config-lock
+[[ -f /flexget/.config-lock ]] && \
+	rm -f /flexget/.config-lock
+
+# copy config.yml
+[[ ! -f /flexget/config.yml ]] && \
+	cp /defaults/config.example.yml /flexget/config.yml
+
+# permissions
+chown -R abc:abc \
+	/flexget
+
+# set FG_WEBUI_PASSWD
+[[ -z "${FG_WEBUI_PASSWD}" ]] && FG_WEBUI_PASSWD="f1exgetp@ss"
+flexget -c /flexget/config.yml web passwd "${FG_WEBUI_PASSWD}"
