@@ -2,7 +2,7 @@ FROM lsiobase/alpine:3.5
 MAINTAINER sparklyballs
 
 # flexget version
-ARG FG_VERSION 2.10.35
+ARG FG_VERSION="2.10.35"
 
 # set version label
 ARG BUILD_DATE
