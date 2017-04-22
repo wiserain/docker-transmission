@@ -1,6 +1,6 @@
 # docker-transmission
 
-This container is:
+This container is
 
 - based on [linuxserver/transmission](https://hub.docker.com/r/linuxserver/transmission/)
 - transmission web coltrol by [ronggang](https://github.com/ronggang/transmission-web-control)

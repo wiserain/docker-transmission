@@ -1,8 +1,8 @@
 FROM lsiobase/alpine:3.5
 MAINTAINER sparklyballs
 
-# define flexget version to be installed
-ENV FG_VERSION 2.10.30
+# flexget version
+ARG FG_VERSION 2.10.35
 
 # set version label
 ARG BUILD_DATE
