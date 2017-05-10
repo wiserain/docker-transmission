@@ -2,7 +2,7 @@ FROM lsiobase/alpine:3.5
 MAINTAINER sparklyballs
 
 # flexget version
-ARG FG_VERSION="2.10.35"
+ARG FG_VERSION="2.10.43"
 
 # set version label
 ARG BUILD_DATE
@@ -31,9 +31,9 @@ RUN cd /usr/share/transmission && \
 # install python, flexget, and other dependencies
 RUN apk add --no-cache python && \
 	python -m ensurepip && \
-	rm -r /usr/lib/python*/ensurepip && \ 
+	rm -r /usr/lib/python*/ensurepip && \
 	pip install --upgrade pip setuptools && \
-	
+
 	apk add --no-cache ca-certificates && \
 	pip install --upgrade --force-reinstall --ignore-installed \
 		transmissionrpc python-telegram-bot "flexget==${FG_VERSION}" && \
