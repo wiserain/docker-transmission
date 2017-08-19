@@ -2,7 +2,7 @@ FROM lsiobase/alpine:3.6
 MAINTAINER sparklyballs
 
 # flexget version
-ARG FG_VERSION="2.10.70"
+ARG FG_VERSION="2.10.80"
 
 # set version label
 ARG BUILD_DATE
@@ -16,6 +16,7 @@ RUN \
 	jq \
 	openssl \
 	p7zip \
+	rsync \
 	tar \
 	transmission-cli \
 	transmission-daemon \
