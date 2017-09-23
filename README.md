@@ -1,11 +1,13 @@
 # docker-transmission
 
-This container is
+This container is with
 
-- based on [linuxserver/transmission](https://hub.docker.com/r/linuxserver/transmission/)
-- transmission web coltrol by [ronggang](https://github.com/ronggang/transmission-web-control)
-- [flexget](http://flexget.com/)
- 
+- [linuxserver/transmission](https://hub.docker.com/r/linuxserver/transmission/)
+- Transmission web coltrol by [ronggang](https://github.com/ronggang/transmission-web-control)
+- [Flexget](http://flexget.com/)
+
+ Note that a default password for webui is set to ```f1exgetp@ss```.
+
 ## Usage
 
 ```
