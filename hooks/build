@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+docker build \
+		--build-arg FG_VERSION=${DOCKER_TAG} \
+		-t ${IMAGE_NAME} .
