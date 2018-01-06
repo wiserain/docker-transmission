@@ -1,27 +1,7 @@
-FROM lsiobase/alpine:3.6
-MAINTAINER sparklyballs
+FROM linuxserver/transmission
 
 # flexget version
 ARG FG_VERSION
-
-# set version label
-ARG BUILD_DATE
-ARG VERSION
-LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-
-# install packages
-RUN \
- apk add --no-cache \
-	curl \
-	jq \
-	openssl \
-	p7zip \
-	rsync \
-	tar \
-	transmission-cli \
-	transmission-daemon \
-	unrar \
-	unzip
 
 # install transmission web control
 ADD https://github.com/ronggang/transmission-web-control/raw/master/release/transmission-control-full.tar.gz /usr/share/transmission/
