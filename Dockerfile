@@ -4,8 +4,8 @@ FROM linuxserver/transmission
 ARG FG_VERSION
 
 # install transmission web control
-ADD https://github.com/ronggang/transmission-web-control/raw/master/release/src.tar.gz /usr/share/transmission/
-RUN cd /usr/share/transmission && \
+ADD https://github.com/ronggang/transmission-web-control/raw/master/release/src.tar.gz /usr/share/transmission/web
+RUN cd /usr/share/transmission/web && \
 	tar -zxf src.tar.gz && \
 	rm src.tar.gz
 
