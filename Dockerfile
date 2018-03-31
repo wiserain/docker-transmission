@@ -4,10 +4,10 @@ FROM linuxserver/transmission
 ARG FG_VERSION
 
 # install transmission web control
-ADD https://github.com/ronggang/twc-release/raw/master/src.tar.gz /usr/share/transmission/web
-RUN cd /usr/share/transmission/web && \
-	tar -zxf src.tar.gz && \
-	rm src.tar.gz
+ADD https://github.com/ronggang/transmission-web-control/raw/master/release/install-tr-control.sh /tmp
+RUN cd /tmp && \
+	bash install-tr-control.sh && \
+	rm install-tr-control.sh
 
 # install python, flexget, and other dependencies
 RUN apk add --no-cache python && \
