@@ -1,8 +1,5 @@
 FROM linuxserver/transmission
 
-# flexget version
-ARG FG_VERSION
-
 # install transmission web control
 ADD https://github.com/ronggang/transmission-web-control/raw/master/release/install-tr-control.sh /tmp
 RUN cd /tmp && \
@@ -17,7 +14,7 @@ RUN apk add --no-cache python && \
 
 	apk add --no-cache ca-certificates && \
 	pip install --upgrade --force-reinstall --ignore-installed \
-		transmissionrpc python-telegram-bot "flexget==${FG_VERSION}" && \
+		transmissionrpc python-telegram-bot flexget && \
 	rm -r /root/.cache
 
 # copy local files
