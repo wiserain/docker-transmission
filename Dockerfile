@@ -3,7 +3,7 @@ FROM linuxserver/transmission
 # install transmission web control
 ADD https://github.com/ronggang/transmission-web-control/raw/master/release/install-tr-control.sh /tmp
 RUN cd /tmp && \
-	bash install-tr-control.sh && \
+	echo -ne "1\n" | bash install-tr-control.sh && \
 	rm install-tr-control.sh
 
 # install python, flexget, and other dependencies
