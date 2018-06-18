@@ -6,7 +6,9 @@ This container is with
 - Transmission web coltrol by [ronggang](https://github.com/ronggang/transmission-web-control)
 - [Flexget](http://flexget.com/)
 
- Note that a default password for webui is set to ```f1exgetp@ss```.
+Note that a default password for webui is set to ```f1exgetp@ss```.
+
+As of Flexget 2.13.22, Python 3 is used for better handling of unicode encoding.
 
 ## Usage
 
