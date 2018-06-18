@@ -7,13 +7,13 @@ RUN cd /tmp && \
 	rm install-tr-control.sh
 
 # install python, flexget, and other dependencies
-RUN apk add --no-cache python && \
-	python -m ensurepip && \
+RUN apk add --no-cache python3 && \
+	python3 -m ensurepip && \
 	rm -r /usr/lib/python*/ensurepip && \
-	pip install --upgrade pip setuptools && \
+	pip3 install --upgrade pip setuptools && \
 
 	apk add --no-cache ca-certificates && \
-	pip install --upgrade --force-reinstall --ignore-installed \
+	pip3 install --upgrade --force-reinstall --ignore-installed \
 		transmissionrpc python-telegram-bot flexget && \
 	rm -r /root/.cache
 
