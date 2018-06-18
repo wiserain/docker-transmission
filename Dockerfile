@@ -12,7 +12,7 @@ RUN apk add --no-cache python3 && \
 	rm -r /usr/lib/python*/ensurepip && \
 	pip3 install --upgrade pip setuptools && \
 
-	apk add --no-cache ca-certificates && \
+	apk add --no-cache ca-certificates mediainfo && \
 	pip3 install --upgrade --force-reinstall --ignore-installed \
 		transmissionrpc python-telegram-bot flexget && \
 	rm -r /root/.cache
