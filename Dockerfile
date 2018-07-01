@@ -21,5 +21,5 @@ RUN apk add --no-cache python3 && \
 COPY root/ /
 
 # ports and volumes
-EXPOSE 9091 51413 3539
+# EXPOSE 9091 51413 3539
 VOLUME /config /downloads /watch /flexget

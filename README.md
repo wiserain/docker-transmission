@@ -21,7 +21,7 @@ docker run -d \
     -e PGID=<gid> -e PUID=<uid> \
     -e TZ=<timezone> \
     -e FG_WEBUI_PASSWD=<your password> \
-    -p 9091:9091 -p 51413:51413 -p 3539:3539 \
-    -p 51413:51413/udp \
+    -p 9091:9091 -p 51413:51413 -p 51413:51413/udp \
+    -p 3539:3539 \
     wiserain/transmission
 ```
