@@ -1,0 +1,15 @@
+series:
+  kvar1:
+    - 'variety name 1':
+        begin: 211
+    - 'variety name 2':
+        alternate_name:
+          - 'variety name 2-1'
+          - 'variety name 2 special'
+        begin: 499
+  kdra1:
+    - 'drama name 1'
+  sisa1:
+    - 'sisa name 1':
+        begin: 1000
+    - 'sisa name 2'

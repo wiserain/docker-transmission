@@ -1,0 +1,153 @@
+# my passwords and other private stuff
+variables: secrets.yml
+
+templates:
+  global:
+    content_filter:
+      require:
+        - '*.avi'
+        - '*.mkv'
+        - '*.mp4'
+      reject:
+        - '*.rar'
+        - 'password.txt'
+        - '*.wmv'
+        - '*CD1*'
+
+    regexp:
+      reject:
+        - pack
+        - complete
+        - '합본'
+        - (s|d)ub(s|bed)?\b: {from: title}
+        - \b3-?D\b: {from: title}
+        - \btrailer\b: {from: title}
+        - \bWEBSCR\b: {from: title}
+        - \bTS\b: {from: title}
+        - \bCam\b: {from: title}
+      reject_excluding:
+        - NEXT
+
+    pathscrub: windows    # most restrictive
+
+    free_space:
+      path: "/downloads/incomplete"
+      space: 6000
+
+    # add the output plugin for transmission
+    transmission:
+      host: '{? transmission.host ?}'
+      username: '{? transmission.username ?}'
+      password: '{? transmission.password ?}'
+      main_file_only: yes
+      ratio: 2.0
+      port: 9091
+
+    # ignore self-signed certificates
+    verify_ssl_certificates: no
+
+    # delay and retry
+    domain_delay:
+      test.com: 3 seconds
+
+    retry_failed:
+      retry_time: 10 seconds
+      retry_time_multiplier: 5
+      max_retries: 4
+
+    # make it look more like a real browser
+    headers:
+      User-Agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36"
+
+    # reject dead torrent?
+    # torrent_alive: yes
+
+    # want to allow magnet only torrent?
+    # magnets: no
+
+    no_entries_ok: yes
+
+    seen:
+      fields:
+        - url
+
+    series:
+      settings:
+        _series-settings-global: &series-settings-global
+          timeframe: 12 hours
+          target: 720p
+          quality: 720p-1080p
+          identified_by: sequence
+          sequence_regexp: E(\d+)
+          exact: no
+
+    thetvdb_lookup: yes
+
+    notify:
+      entries:
+        message: |+
+          *[NEXT] Download Started*
+          {% if series_name is defined -%}
+          {{title}}[ ]({{tvdb_ep_image|replace("_", "%5F")}})
+          {% else -%}
+          {{title}}
+          {%- endif -%}
+        via:
+          - telegram:
+              bot_token: '{? telegram.bot_token ?}'
+              parse_mode: markdown
+              recipients:
+                - fullname:
+                    first: '{? my.firstname ?}'
+                    sur: '{? my.lastname ?}'
+
+  tv_NEXT:
+    series:
+      settings:
+        kvar1:
+          <<: *series-settings-global
+          path: '{? basepath.kvar ?}/{{series_name|pathscrub}}/'
+        kdra1:
+          <<: *series-settings-global
+          path: '{? basepath.kdra ?}/{{series_name|pathscrub}}/'
+        sisa1:
+          <<: *series-settings-global
+          path: '{? basepath.sisa ?}/{{series_name|pathscrub}}/'
+    include: series.yml
+
+tasks:
+  get_next:
+    inputs:
+      - rss: { url: '{? rssurl.drama ?}', silent: yes, group_links: yes }
+      - rss: { url: '{? rssurl.tv ?}', silent: yes, group_links: yes }
+      - rss: { url: '{? rssurl.ent ?}', silent: yes, group_links: yes }
+    template:
+      - tv_NEXT
+
+  cleanup:
+    clean_transmission:
+      host: '{? transmission.host ?}'
+      username: '{? transmission.username ?}'
+      password: '{? transmission.password ?}'
+      port: 9091
+      # min_ratio: 5
+      finished_for: 7 days
+    template: no_global
+    no_entries_ok: yes
+    disable: details
+
+schedules:
+  # Run tasks every
+  - tasks: get_next
+    interval:
+      minutes: 15
+  - tasks: cleanup
+    interval:
+      hours: 24
+
+web_server:
+  bind: 0.0.0.0
+  port: 3539
+  web_ui: yes
+  base_url: '/flexget'
+  run_v2: yes
