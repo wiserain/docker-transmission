@@ -6,11 +6,14 @@ RUN cd /tmp && \
 	echo -ne "1\n" | bash install-tr-control.sh && \
 	rm install-tr-control.sh
 
-# install python, flexget, and other dependencies
+# install frolvlad/alpine-python3
 RUN apk add --no-cache python3 && \
 	python3 -m ensurepip && \
 	rm -r /usr/lib/python*/ensurepip && \
 	pip3 install --upgrade pip setuptools && \
+	if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+	if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+	rm -r /root/.cache && \
 
 	apk add --no-cache ca-certificates mediainfo && \
 	pip3 install --upgrade --force-reinstall --ignore-installed \
