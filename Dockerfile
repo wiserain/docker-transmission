@@ -14,10 +14,12 @@ RUN apk add --no-cache python3 && \
 	if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
 	if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
 	rm -r /root/.cache && \
-
-	apk add --no-cache ca-certificates mediainfo && \
-	pip3 install --upgrade --force-reinstall --ignore-installed \
-		transmissionrpc python-telegram-bot flexget && \
+	# install flexget and addons
+	apk add --no-cache ca-certificates tzdata mediainfo py3-cryptography && \
+	pip3 install --upgrade \
+		transmissionrpc \
+		python-telegram-bot \
+		flexget && \
 	rm -r /root/.cache
 
 # copy local files
