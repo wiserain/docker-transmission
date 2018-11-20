@@ -6,17 +6,18 @@ RUN cd /tmp && \
 	echo -ne "1\n" | bash install-tr-control.sh && \
 	rm install-tr-control.sh
 
-# install frolvlad/alpine-python3
-RUN apk add --no-cache python3 && \
-	python3 -m ensurepip && \
-	rm -r /usr/lib/python*/ensurepip && \
-	pip3 install --upgrade pip setuptools && \
-	if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-	if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-	rm -r /root/.cache && \
+# install frolvlad/alpine-python2
+RUN apk add --no-cache python && \
+    python -m ensurepip && \
+    rm -r /usr/lib/python*/ensurepip && \
+    pip install --upgrade pip setuptools && \
 	# install flexget and addons
-	apk add --no-cache ca-certificates tzdata mediainfo py3-cryptography && \
-	pip3 install --upgrade \
+	apk add --no-cache ca-certificates tzdata mediainfo py2-cryptography && \
+	apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/main \
+		libcrypto1.1 libssl1.1 boost-python boost-system && \
+	apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing \
+		libtorrent-rasterbar && \
+	pip install --upgrade \
 		transmissionrpc \
 		python-telegram-bot \
 		flexget && \
