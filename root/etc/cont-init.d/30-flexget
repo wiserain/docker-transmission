@@ -17,5 +17,5 @@ chown -R abc:abc \
 	/flexget
 
 # set FG_WEBUI_PASSWD
-[[ -z "${FG_WEBUI_PASSWD}" ]] && FG_WEBUI_PASSWD="f1exgetp@ss"
-flexget -c /flexget/config.yml web passwd "${FG_WEBUI_PASSWD}"
+[[ ! -z "${FG_WEBUI_PASSWD}" ]] && \
+	flexget -c /flexget/config.yml web passwd "${FG_WEBUI_PASSWD}"
