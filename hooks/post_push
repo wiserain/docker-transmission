@@ -5,15 +5,12 @@ function add_tag() {
   docker push $DOCKER_REPO:$1
 }
 
-if [ "${DOCKER_TAG}" == "latest" ]; then
-	CID=$(docker run -d $IMAGE_NAME)
-	sleep 10s
-	FG_VERSION=$(docker exec $CID flexget -V | sed -n 1p)
-	docker rm -f $CID
-
-	add_tag $FG_VERSION
-fi
+CID=$(docker run -d $IMAGE_NAME)
+sleep 10s
+FG_VERSION=$(docker exec $CID flexget -V | sed -n 1p)
+docker rm -f $CID
 
 add_tag $DOCKER_TAG
+add_tag $FG_VERSION
 
 exit $?
