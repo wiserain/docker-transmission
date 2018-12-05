@@ -1,27 +1,15 @@
-FROM lsiobase/alpine:3.6
-MAINTAINER sparklyballs
+FROM linuxserver/transmission
 
-# set version label
-ARG BUILD_DATE
-ARG VERSION
-LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-
-# install packages
 RUN \
- apk add --no-cache \
-	curl \
-	jq \
-	openssl \
-	p7zip \
-	rsync \
-	tar \
-	transmission-cli \
-	transmission-daemon \
-	unrar \
-	unzip
-
-# copy local files
-COPY root/ /
+	echo "**** install transmission web control ****" && \
+	wget -P /tmp https://github.com/ronggang/transmission-web-control/raw/master/release/install-tr-control.sh && \
+	echo -ne "1\n" | bash /tmp/install-tr-control.sh && \
+	echo "**** install utils ****" && \
+	apk add --no-cache mediainfo findutils && \
+	echo "**** cleanup ****" && \
+	rm -rf \
+		/tmp/* \
+		/root/.cache
 
 # ports and volumes
 EXPOSE 9091 51413
