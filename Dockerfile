@@ -1,11 +1,6 @@
-FROM linuxserver/transmission
+FROM wiserain/transmission:only
 
 RUN \
-	echo "**** install transmission web control ****" && \
-	wget -P /tmp https://github.com/ronggang/transmission-web-control/raw/master/release/install-tr-control.sh && \
-	echo -ne "1\n" | bash /tmp/install-tr-control.sh && \
-	echo "**** install utils ****" && \
-	apk add --no-cache mediainfo findutils && \
 	echo "**** install python ****" && \
 	apk add --no-cache python3 && \
 	python3 -m ensurepip && \
