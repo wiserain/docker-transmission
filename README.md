@@ -15,5 +15,5 @@ docker run -d \
     -e PGID=<gid> -e PUID=<uid> \
     -e TZ=<timezone> \
     -p 9091:9091 -p 51413:51413 -p 51413:51413/udp \
-    wiserain/transmission
+    wiserain/transmission:only
 ```
