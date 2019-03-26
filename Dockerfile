@@ -1,4 +1,4 @@
-FROM wiserain/transmission:only
+FROM linuxserver/transmission:latest
 
 RUN \
 	echo "**** install python ****" && \
@@ -9,7 +9,7 @@ RUN \
 	if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
 	if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
 	echo "**** install flexget and addons ****" && \
-	apk add --no-cache py3-cryptography && \
+	apk add --no-cache py3-cryptography mediainfo && \
 	pip3 install --upgrade \
 		transmissionrpc \
 		python-telegram-bot \
