@@ -8,11 +8,15 @@ RUN \
 	pip3 install --upgrade pip setuptools && \
 	if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
 	if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-	echo "**** install flexget and addons ****" && \
-	apk add --no-cache py3-cryptography mediainfo && \
-	pip3 install --upgrade \
-		transmissionrpc \
-		python-telegram-bot \
+	echo "**** install plugin: telegram ****" && \
+	apk add --no-cache py3-cryptography && \
+	pip install --upgrade python-telegram-bot && \
+	echo "**** install plugin: misc ****" && \
+	apk add --no-cache mediainfo && \
+	pip install --upgrade \
+		transmissionrpc && \
+	echo "**** install flexget ****" && \
+	pip install --upgrade --force-reinstall \
 		flexget && \
 	echo "**** cleanup ****" && \
 	rm -rf \
