@@ -11,6 +11,10 @@ RUN \
 	echo "**** install plugin: telegram ****" && \
 	apk add --no-cache py3-cryptography && \
 	pip install --upgrade python-telegram-bot && \
+	echo "**** install plugins: cfscraper ****" && \
+	apk add --no-cache --virtual=build-deps g++ gcc python3-dev && \
+	pip install --upgrade cloudscraper && \
+	apk del --purge build-deps && \
 	echo "**** install plugin: misc ****" && \
 	apk add --no-cache mediainfo && \
 	pip install --upgrade \
