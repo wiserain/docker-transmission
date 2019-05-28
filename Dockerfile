@@ -1,5 +1,8 @@
 FROM linuxserver/transmission:latest
 
+ARG MAKEFLAGS="-j2"
+ARG LIBTORRENT_VER=libtorrent-1_1_13
+
 RUN \
 	echo "**** install python ****" && \
 	apk add --no-cache python3 && \
@@ -29,7 +32,6 @@ RUN \
 		automake \
 		boost-dev \
 		coreutils \
-		curl \
 		file \
 		g++ \
 		gcc \
@@ -41,7 +43,7 @@ RUN \
 	cd $(mktemp -d) && \
 	git clone https://github.com/arvidn/libtorrent.git && \
 	cd libtorrent && \
-	git checkout $(curl --silent https://api.github.com/repos/arvidn/libtorrent/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') && \
+	git checkout $LIBTORRENT_VER && \
 	./autotool.sh && \
 	./configure \
 		CFLAGS="-Wno-deprecated-declarations" \
@@ -53,7 +55,7 @@ RUN \
 	    --with-libiconv \
 	    --with-boost-python="$(ls -1 /usr/lib/libboost_python3*-mt.so* | head -1 | sed 's/.*.\/lib\(.*\)\.so.*/\1/')" \
 	    PYTHON=`which python3` && \
-	make -j$(nproc) && \
+	make VERBOSE=1 && \
 	make install && \
 	apk del --purge --no-cache build-deps && \
 	# recover missing symlink for python3
