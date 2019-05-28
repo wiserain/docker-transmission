@@ -61,7 +61,8 @@ RUN \
 	echo "**** install plugin: misc ****" && \
 	apk add --no-cache mediainfo && \
 	pip install --upgrade \
-		transmissionrpc && \
+		transmissionrpc \
+		deluge_client && \
 	echo "**** install flexget ****" && \
 	pip install --upgrade --force-reinstall \
 		flexget && \
