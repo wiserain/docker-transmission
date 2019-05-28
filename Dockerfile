@@ -14,7 +14,7 @@ RUN \
 	echo "**** install plugins: cfscraper ****" && \
 	apk add --no-cache --virtual=build-deps g++ gcc python3-dev && \
 	pip install --upgrade cloudscraper && \
-	apk del --purge build-deps && \
+	apk del --purge --no-cache build-deps && \
 	echo "**** install plugin: misc ****" && \
 	apk add --no-cache mediainfo && \
 	pip install --upgrade \
