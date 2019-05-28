@@ -15,6 +15,49 @@ RUN \
 	apk add --no-cache --virtual=build-deps g++ gcc python3-dev && \
 	pip install --upgrade cloudscraper && \
 	apk del --purge --no-cache build-deps && \
+	echo "**** install plugins: convert_magnet ****" && \
+	# https://github.com/emmercm/docker-libtorrent/blob/master/Dockerfile
+	set -euo pipefail && \
+	apk add --no-cache \
+		boost-python3 \
+		boost-system \
+		libgcc \
+		libstdc++ \
+		openssl && \
+	apk add --no-cache --virtual=build-deps \
+		autoconf \
+		automake \
+		boost-dev \
+		coreutils \
+		curl \
+		file \
+		g++ \
+		gcc \
+		git \
+		libtool \
+		make \
+		openssl-dev \
+		python3-dev && \
+	cd $(mktemp -d) && \
+	git clone https://github.com/arvidn/libtorrent.git && \
+	cd libtorrent && \
+	git checkout $(curl --silent https://api.github.com/repos/arvidn/libtorrent/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') && \
+	./autotool.sh && \
+	./configure \
+		CFLAGS="-Wno-deprecated-declarations" \
+	    CXXFLAGS="-Wno-deprecated-declarations" \
+	    --prefix=/usr \
+	    --disable-debug \
+	    --enable-encryption \
+	    --enable-python-binding \
+	    --with-libiconv \
+	    --with-boost-python="$(ls -1 /usr/lib/libboost_python3*-mt.so* | head -1 | sed 's/.*.\/lib\(.*\)\.so.*/\1/')" \
+	    PYTHON=`which python3` && \
+	make -j$(nproc) && \
+	make install && \
+	apk del --purge --no-cache build-deps && \
+	# recover missing symlink for python3
+	ln -sf /usr/bin/python3 /usr/bin/python && \
 	echo "**** install plugin: misc ****" && \
 	apk add --no-cache mediainfo && \
 	pip install --upgrade \
