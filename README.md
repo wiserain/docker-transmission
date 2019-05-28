@@ -23,6 +23,7 @@ docker run -d \
     -e PGID=<gid> -e PUID=<uid> \
     -e TZ=<timezone> \
     -e FG_WEBUI_PASSWD=<your password> \
+    -e FG_LOG_LEVEL=info \
     -p 9091:9091 -p 51413:51413 -p 51413:51413/udp \
     -p 3539:3539 \
     wiserain/transmission:flexget
