@@ -1,8 +1,5 @@
 FROM linuxserver/transmission:latest
 
-ARG MAKEFLAGS="-j2"
-ARG LIBTORRENT_VER=libtorrent-1_1_13
-
 RUN \
 	echo "**** install python ****" && \
 	apk add --no-cache python3 && \
@@ -19,47 +16,12 @@ RUN \
 	pip install --upgrade cloudscraper && \
 	apk del --purge --no-cache build-deps && \
 	echo "**** install plugins: convert_magnet ****" && \
-	# https://github.com/emmercm/docker-libtorrent/blob/master/Dockerfile
-	set -euo pipefail && \
 	apk add --no-cache \
-		boost-python3 \
-		boost-system \
-		libgcc \
-		libstdc++ \
-		openssl && \
-	apk add --no-cache --virtual=build-deps \
-		autoconf \
-		automake \
-		boost-dev \
-		coreutils \
-		file \
-		g++ \
-		gcc \
-		git \
-		libtool \
-		make \
-		openssl-dev \
-		python3-dev && \
-	cd $(mktemp -d) && \
-	git clone https://github.com/arvidn/libtorrent.git && \
-	cd libtorrent && \
-	git checkout $LIBTORRENT_VER && \
-	./autotool.sh && \
-	./configure \
-		CFLAGS="-Wno-deprecated-declarations" \
-	    CXXFLAGS="-Wno-deprecated-declarations" \
-	    --prefix=/usr \
-	    --disable-debug \
-	    --enable-encryption \
-	    --enable-python-binding \
-	    --with-libiconv \
-	    --with-boost-python="$(ls -1 /usr/lib/libboost_python3*-mt.so* | head -1 | sed 's/.*.\/lib\(.*\)\.so.*/\1/')" \
-	    PYTHON=`which python3` && \
-	make VERBOSE=1 && \
-	make install && \
-	apk del --purge --no-cache build-deps && \
-	# recover missing symlink for python3
-	ln -sf /usr/bin/python3 /usr/bin/python && \
+		--repository http://nl.alpinelinux.org/alpine/edge/main \
+		boost-python3 && \
+	 apk add --no-cache \
+		--repository http://nl.alpinelinux.org/alpine/edge/testing \
+		py3-libtorrent-rasterbar && \
 	echo "**** install plugin: misc ****" && \
 	apk add --no-cache mediainfo && \
 	pip install --upgrade \
