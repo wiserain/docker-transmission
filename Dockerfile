@@ -38,6 +38,8 @@ RUN \
 # copy local files
 COPY root/ /
 
+ENV TRANSMISSION_WEB_HOME="/transmission-web-control/"
+
 # ports and volumes
 EXPOSE 9091 51413 3539
 VOLUME /config /downloads /watch /flexget
