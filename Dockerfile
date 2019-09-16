@@ -1,5 +1,7 @@
 FROM linuxserver/transmission:latest
 
+ENV TRANSMISSION_WEB_HOME="/transmission-web-control/"
+
 RUN \
 	echo "**** install python ****" && \
 	apk add --no-cache python3 && \
@@ -37,8 +39,6 @@ RUN \
 
 # copy local files
 COPY root/ /
-
-ENV TRANSMISSION_WEB_HOME="/transmission-web-control/"
 
 # ports and volumes
 EXPOSE 9091 51413 3539
