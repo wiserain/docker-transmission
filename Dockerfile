@@ -14,7 +14,7 @@ RUN \
 	apk add --no-cache py3-cryptography && \
 	pip install --upgrade python-telegram-bot && \
 	echo "**** install plugins: cfscraper ****" && \
-	apk add --no-cache --virtual=build-deps g++ gcc python3-dev && \
+	apk add --no-cache --virtual=build-deps g++ gcc python3-dev libffi-dev openssl-dev && \
 	pip install --upgrade cloudscraper && \
 	apk del --purge --no-cache build-deps && \
 	echo "**** install plugins: convert_magnet ****" && \
