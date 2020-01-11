@@ -12,21 +12,30 @@ RUN \
 	if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
 	echo "**** install plugin: telegram ****" && \
 	apk add --no-cache py3-cryptography && \
+	pip install --upgrade PySocks && \
 	pip install --upgrade python-telegram-bot && \
 	echo "**** install plugins: cfscraper ****" && \
 	apk add --no-cache --virtual=build-deps g++ gcc python3-dev libffi-dev openssl-dev && \
 	pip install --upgrade cloudscraper && \
 	apk del --purge --no-cache build-deps && \
 	echo "**** install plugins: convert_magnet ****" && \
-	apk add --no-cache boost-python3 && \
+	apk add --no-cache boost-python3 libstdc++ && \
 	echo "**** install plugin: misc ****" && \
 	apk add --no-cache mediainfo && \
 	pip install --upgrade \
 		transmissionrpc \
-		deluge_client && \
+		deluge_client \
+		irc_bot && \
+	echo "**** install plugins: rar ****" && \
+	apk add --no-cache unrar && \
+	pip install --upgrade \
+		rarfile && \
 	echo "**** install flexget ****" && \
+	apk add --no-cache --virtual=build-deps gcc libxml2-dev libxslt-dev libc-dev python3-dev && \
 	pip install --upgrade --force-reinstall \
 		flexget && \
+	apk del --purge --no-cache build-deps && \
+	apk add --no-cache libxml2 libxslt && \
 	echo "**** cleanup ****" && \
 	rm -rf \
 		/tmp/* \
