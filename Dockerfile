@@ -5,11 +5,11 @@ ENV TRANSMISSION_WEB_HOME="/transmission-web-control/"
 RUN \
 	echo "**** install python ****" && \
 	apk add --no-cache python3 && \
+	if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
 	python3 -m ensurepip && \
 	rm -r /usr/lib/python*/ensurepip && \
-	pip3 install --upgrade pip setuptools && \
-	if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-	if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+	pip3 install --no-cache --upgrade pip setuptools==45.3.0 wheel && \
+	if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip; fi && \
 	echo "**** install plugin: telegram ****" && \
 	apk add --no-cache py3-cryptography && \
 	pip install --upgrade PySocks && \
