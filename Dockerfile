@@ -35,7 +35,7 @@ RUN \
 	pip install --upgrade --force-reinstall \
 		flexget && \
 	apk del --purge --no-cache build-deps && \
-	apk add --no-cache libxml2 libxslt && \
+	apk add --no-cache libxml2 libxslt jpeg && \
 	echo "**** cleanup ****" && \
 	rm -rf \
 		/tmp/* \
