@@ -41,8 +41,8 @@ jobs:
           docker buildx build \
             --output "type=image,push=true" \
             --platform ${{ steps.vars.outputs.buildx_platforms }} \
-            --tag "${IMAGE_NAME}:${{ steps.vars.outputs.version }}" \
-            --tag "${IMAGE_NAME}:latest" \
+            --tag "${IMAGE_NAME}:flexget-${{ steps.vars.outputs.version }}" \
+            --tag "${IMAGE_NAME}:flexget" \
             --file Dockerfile . \
             --build-arg "ALPINE_VER=3.11" \
             --build-arg "FLEXGET_VER=${{ steps.vars.outputs.version }}" \
