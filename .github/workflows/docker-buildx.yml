@@ -56,4 +56,4 @@ jobs:
           status: ${{ job.status }}
           description: |
             Image: ${{ steps.vars.outputs.dockerhub_user }}/${{ steps.vars.outputs.dockerhub_repo }}
-            Tags: latest, ${{ steps.vars.outputs.version }}
+            Tags: flexget, flexget-${{ steps.vars.outputs.version }}
