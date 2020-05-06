@@ -47,3 +47,13 @@ jobs:
             --build-arg "ALPINE_VER=3.11" \
             --build-arg "FLEXGET_VER=${{ steps.vars.outputs.version }}" \
             --build-arg "LIBTORRENT_VER=1.2.6"
+      -
+        name: Send Notification
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          description: |
+            Image: ${{ steps.vars.outputs.dockerhub_user }}/${{ steps.vars.outputs.dockerhub_repo }}
+            Tags: latest, ${{ steps.vars.outputs.version }}
