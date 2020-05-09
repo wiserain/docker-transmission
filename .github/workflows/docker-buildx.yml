@@ -18,7 +18,7 @@ jobs:
           echo ::set-output name=buildx_platforms::linux/amd64,linux/arm/v7,linux/arm64
           echo ::set-output name=dockerhub_user::wiserain
           echo ::set-output name=dockerhub_repo::transmission
-          echo ::set-output name=version::$(pip3 search flexget | grep FlexGet | awk '{print $2}' | tr -d '()')
+          echo ::set-output name=flexget_ver::$(pip3 search flexget | grep FlexGet | awk '{print $2}' | tr -d '()')
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -41,11 +41,11 @@ jobs:
           docker buildx build \
             --output "type=image,push=true" \
             --platform ${{ steps.vars.outputs.buildx_platforms }} \
-            --tag "${IMAGE_NAME}:flexget-${{ steps.vars.outputs.version }}" \
+            --tag "${IMAGE_NAME}:flexget-${{ steps.vars.outputs.flexget_ver }}" \
             --tag "${IMAGE_NAME}:flexget" \
             --file Dockerfile . \
             --build-arg "ALPINE_VER=3.11" \
-            --build-arg "FLEXGET_VER=${{ steps.vars.outputs.version }}" \
+            --build-arg "FLEXGET_VER=${{ steps.vars.outputs.flexget_ver }}" \
             --build-arg "LIBTORRENT_VER=1.2.6"
       -
         name: Send Notification
@@ -56,4 +56,4 @@ jobs:
           status: ${{ job.status }}
           description: |
             Image: ${{ steps.vars.outputs.dockerhub_user }}/${{ steps.vars.outputs.dockerhub_repo }}
-            Tags: flexget, flexget-${{ steps.vars.outputs.version }}
+            Tags: flexget, flexget-${{ steps.vars.outputs.flexget_ver }}
