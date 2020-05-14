@@ -1,7 +1,7 @@
 ARG ALPINE_VER
 ARG LIBTORRENT_VER
 
-FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER} AS libtorrent
+FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py3 AS libtorrent
 FROM linuxserver/transmission:latest
 LABEL maintainer "wiserain"
 
@@ -49,7 +49,7 @@ RUN \
 		/root/.cache
 
 # copy libtorrent libs
-COPY --from=libtorrent /libtorrent-py3/usr/lib/ /usr/lib/
+COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
 
 # copy local files
 COPY root/ /

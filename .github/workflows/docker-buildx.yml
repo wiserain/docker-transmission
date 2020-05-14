@@ -6,6 +6,10 @@ on:
   schedule:
     - cron: "0 21 * * 5"
 
+env:
+  DOCKERHUB_USER: wiserain
+  DOCKERHUB_REPO: transmission
+
 jobs:
   docker-buildx:
     runs-on: ubuntu-latest
@@ -15,38 +19,22 @@ jobs:
         name: Load Variables
         id: vars
         run: |
-          echo ::set-output name=buildx_platforms::linux/amd64,linux/arm/v7,linux/arm64
-          echo ::set-output name=dockerhub_user::wiserain
-          echo ::set-output name=dockerhub_repo::transmission
           echo ::set-output name=flexget_ver::$(pip3 search flexget | grep FlexGet | awk '{print $2}' | tr -d '()')
       -
         name: Checkout
         uses: actions/checkout@v2
       - 
-        name: Dockerhub Login
-        env:
-          DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}
-        run: |
-          echo "${DOCKERHUB_PASS}" | docker login --username "${{ steps.vars.outputs.dockerhub_user }}" --password-stdin
-      -
-        name: Setup Buildx
-        uses: crazy-max/ghaction-docker-buildx@v1
-        with:
-          version: latest
-      - 
         name: Run Buildx
-        env:
-          IMAGE_NAME: ${{ steps.vars.outputs.dockerhub_user }}/${{ steps.vars.outputs.dockerhub_repo }}
-        run: |
-          docker buildx build \
-            --output "type=image,push=true" \
-            --platform ${{ steps.vars.outputs.buildx_platforms }} \
-            --tag "${IMAGE_NAME}:flexget-${{ steps.vars.outputs.flexget_ver }}" \
-            --tag "${IMAGE_NAME}:flexget" \
-            --file Dockerfile . \
-            --build-arg "ALPINE_VER=3.11" \
-            --build-arg "FLEXGET_VER=${{ steps.vars.outputs.flexget_ver }}" \
-            --build-arg "LIBTORRENT_VER=1.2.6"
+        uses: ilteoood/docker_buildx@master
+        with:
+          imageName: ${{ env.DOCKERHUB_USER }}/${{ env.DOCKERHUB_REPO }}
+          tag: flexget-${{ steps.vars.outputs.flexget_ver }},flexget
+          dockerFile: Dockerfile
+          buildArg: ALPINE_VER=3.11,LIBTORRENT_VER=1.2.6,FLEXGET_VER=${{ steps.vars.outputs.flexget_ver }}
+          publish: true
+          platform: linux/amd64,linux/arm/v7,linux/arm64
+          dockerHubUser: ${{ env.DOCKERHUB_USER }}
+          dockerHubPassword: ${{ secrets.DOCKERHUB_PASS }}
       -
         name: Send Notification
         uses: sarisia/actions-status-discord@v1
@@ -55,5 +43,5 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           description: |
-            Image: ${{ steps.vars.outputs.dockerhub_user }}/${{ steps.vars.outputs.dockerhub_repo }}
+            Image: ${{ env.DOCKERHUB_USER }}/${{ env.DOCKERHUB_REPO }}
             Tags: flexget, flexget-${{ steps.vars.outputs.flexget_ver }}
