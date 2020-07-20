@@ -56,5 +56,5 @@ COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
 COPY root/ /
 
 # ports and volumes
-EXPOSE 9091 51413 3539
+EXPOSE 9091 51413 5050
 VOLUME /config /downloads /watch /flexget

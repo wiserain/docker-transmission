@@ -1,6 +1,7 @@
 web_server:
   bind: 0.0.0.0
-  port: 3539
+  port: 5050
+  web_ui: yes
 
 tasks:
   example-task:

@@ -14,7 +14,7 @@ As of Flexget 2.13.22, Python 3 is used for better handling of unicode encoding.
 
 ## Usage
 
-```
+```bash
 docker run -d \
     -v <path to config>:/config \
     -v <path to downloads>:/downloads \
@@ -25,6 +25,6 @@ docker run -d \
     -e FG_WEBUI_PASSWD=<your password> \
     -e FG_LOG_LEVEL=info \
     -p 9091:9091 -p 51413:51413 -p 51413:51413/udp \
-    -p 3539:3539 \
+    -p 5050:5050 \
     wiserain/transmission:flexget
 ```
