@@ -19,7 +19,7 @@ RUN \
 	if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip; fi && \
 	echo "**** install dependencies for plugin: telegram ****" && \
 	apk add --no-cache --virtual=build-deps gcc python3-dev libffi-dev musl-dev openssl-dev && \
-	pip install --upgrade python-telegram-bot PySocks && \
+	pip install --upgrade python-telegram-bot==12.8 PySocks && \
 	apk del --purge --no-cache build-deps && \
 	echo "**** install dependencies for plugin: cfscraper ****" && \
 	apk add --no-cache --virtual=build-deps g++ gcc python3-dev libffi-dev openssl-dev && \
