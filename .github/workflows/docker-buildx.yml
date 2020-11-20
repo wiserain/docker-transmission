@@ -9,6 +9,8 @@ on:
 env:
   DOCKERHUB_USER: wiserain
   DOCKERHUB_REPO: transmission
+  ALPINE_VER: "3.12"
+  LIBTORRENT_VER: "2.0.0"
 
 jobs:
   docker-buildx:
@@ -31,7 +33,7 @@ jobs:
           imageName: ${{ env.DOCKERHUB_USER }}/${{ env.DOCKERHUB_REPO }}
           tag: flexget-${{ steps.vars.outputs.flexget_ver }},flexget
           dockerFile: Dockerfile
-          buildArg: ALPINE_VER=3.12,LIBTORRENT_VER=latest,FLEXGET_VER=${{ steps.vars.outputs.flexget_ver }}
+          buildArg: ALPINE_VER=${{ env.ALPINE_VER }},LIBTORRENT_VER=${{ env.LIBTORRENT_VER }},FLEXGET_VER=${{ steps.vars.outputs.flexget_ver }}
           publish: true
           platform: linux/amd64,linux/arm/v7,linux/arm64
           dockerHubUser: ${{ env.DOCKERHUB_USER }}
