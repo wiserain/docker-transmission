@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v2
       - 
         name: Run Buildx
-        uses: ilteoood/docker_buildx@master
+        uses: ilteoood/docker_buildx@1.1.0
         with:
           imageName: ${{ env.DOCKERHUB_USER }}/${{ env.DOCKERHUB_REPO }}
           tag: flexget-${{ steps.vars.outputs.flexget_ver }},flexget
@@ -36,8 +36,8 @@ jobs:
           buildArg: ALPINE_VER=${{ env.ALPINE_VER }},LIBTORRENT_VER=${{ env.LIBTORRENT_VER }},FLEXGET_VER=${{ steps.vars.outputs.flexget_ver }}
           publish: true
           platform: linux/amd64,linux/arm/v7,linux/arm64
-          dockerHubUser: ${{ env.DOCKERHUB_USER }}
-          dockerHubPassword: ${{ secrets.DOCKERHUB_PASS }}
+          dockerUser: ${{ env.DOCKERHUB_USER }}
+          dockerPassword: ${{ secrets.DOCKERHUB_PASS }}
       -
         name: push README to Dockerhub
         uses: christian-korneck/update-container-description-action@v1
