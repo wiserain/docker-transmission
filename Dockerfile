@@ -1,11 +1,9 @@
-ARG ALPINE_VER
-ARG LIBTORRENT_VER
+ARG ALPINE_VER=3.12
+ARG LIBTORRENT_VER=2.0.0
 
 FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py3 AS libtorrent
 FROM linuxserver/transmission:latest
 LABEL maintainer "wiserain"
-
-ARG FLEXGET_VER
 
 ENV TRANSMISSION_WEB_HOME="/transmission-web-control/"
 
@@ -39,7 +37,7 @@ RUN \
 	echo "**** install flexget ****" && \
 	apk add --no-cache --virtual=build-deps gcc libxml2-dev libxslt-dev libc-dev python3-dev jpeg-dev && \
 	pip install --upgrade --force-reinstall \
-		flexget==${FLEXGET_VER} && \
+		flexget && \
 	apk del --purge --no-cache build-deps && \
 	apk add --no-cache libxml2 libxslt jpeg && \
 	echo "**** system configurations ****" && \
