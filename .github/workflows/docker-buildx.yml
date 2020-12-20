@@ -127,5 +127,5 @@ jobs:
           description: |
             Image: ${{ env.DOCKERHUB_USER }}/${{ env.DOCKERHUB_REPO }}
             Tags:
-              - latest
-              - ${{ steps.vars.outputs.app_ver }}
+              - flexget
+              - flexget-${{ steps.vars.outputs.app_ver }}
