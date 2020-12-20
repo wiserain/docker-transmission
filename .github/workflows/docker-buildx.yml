@@ -102,7 +102,7 @@ jobs:
         uses: ilteoood/docker_buildx@1.1.0
         with:
           imageName: ${{ env.DOCKERHUB_USER }}/${{ env.DOCKERHUB_REPO }}
-          tag: latest,${{ steps.vars.outputs.app_ver }}
+          tag: flexget,flexget-${{ steps.vars.outputs.app_ver }}
           dockerFile: Dockerfile
           publish: true
           platform: linux/amd64,linux/arm/v7,linux/arm64
