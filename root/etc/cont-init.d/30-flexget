@@ -17,5 +17,9 @@ chown -R abc:abc \
 	/flexget
 
 # set FG_WEBUI_PASSWD
-[[ ! -z "${FG_WEBUI_PASSWD}" ]] && \
-	flexget -c /flexget/config.yml web passwd "${FG_WEBUI_PASSWD}"
+if [[ ! -z "${FG_WEBUI_PASSWD}" ]]; then
+	echo "Setting flexget web password to '${FG_WEBUI_PASSWD}'"
+	RESULT=$(flexget -c /flexget/config.yml web passwd "${FG_WEBUI_PASSWD}" 2>&1)
+	echo ${RESULT} | grep -q 'Updated password' && echo "${RESULT}" || \
+		{ echo "${RESULT}"; exit 1; }
+fi

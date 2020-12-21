@@ -6,6 +6,7 @@ FROM linuxserver/transmission:latest
 LABEL maintainer "wiserain"
 
 ENV TRANSMISSION_WEB_HOME="/transmission-web-control/"
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 RUN \
     echo "**** install frolvlad/alpine-python3 ****" && \
