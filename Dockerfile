@@ -2,7 +2,7 @@ ARG ALPINE_VER=3.12
 ARG LIBTORRENT_VER=2.0.0
 
 FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py3 AS libtorrent
-FROM linuxserver/transmission:latest
+FROM ghcr.io/linuxserver/transmission:latest
 LABEL maintainer "wiserain"
 
 ENV TRANSMISSION_WEB_HOME="/transmission-web-control/"
