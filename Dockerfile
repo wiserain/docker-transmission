@@ -1,5 +1,5 @@
 ARG ALPINE_VER=3.12
-ARG LIBTORRENT_VER=2.0.0
+ARG LIBTORRENT_VER=latest
 
 FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py3 AS libtorrent
 FROM ghcr.io/linuxserver/transmission:latest
