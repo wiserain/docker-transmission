@@ -1,6 +1,13 @@
 ARG ALPINE_VER=3.13
 ARG LIBTORRENT_VER=latest
 
+FROM node:alpine3.13 AS floodbuilder
+WORKDIR /tmp/flood
+RUN echo "Build Flood UI" && \
+	wget -qO- https://github.com/johman10/flood-for-transmission/archive/master.tar.gz | tar xz -C . --strip=1 && \
+    npm ci && \
+    npm run build
+
 FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py3 AS libtorrent
 FROM ghcr.io/linuxserver/transmission:latest
 LABEL maintainer "wiserain"
@@ -48,6 +55,8 @@ RUN \
 		/tmp/* \
 		/root/.cache
 
+# copy flood ui
+COPY --from=floodbuilder /tmp/flood/public /flood
 # copy libtorrent libs
 COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
 
